@@ -1,4 +1,4 @@
-#! /bin/zsh -x
+#! /bin/zsh 
 
 random=$(( RANDOM%((1-0)+1)+0 ))
 
@@ -15,9 +15,9 @@ declare -A singletNo
 
 
 singlet=(["H"]=1 ["T"]=0)
-echo ${singlet[@]}
+#echo ${singlet[@]}
 singletNo=([1]=0 [0]=0)
-echo ${singletNo[@]}
+#echo ${singletNo[@]}
 
 for (( index=1;index<=10;index++ ))
 do
@@ -61,7 +61,7 @@ tripletNo=([1]=0 [2]=0 [3]=0 [4]=0 [5]=0 [6]=0 [7]=0 [8]=0)
 
 for (( index=1;index<=50;index++ ))
 do
-random=$(( RANDOM%((9-1)+0)+1 ))
+random=$(( RANDOM%((8-1)+1)+1 ))
 tripletNo[$random]=$(( ${tripletNo[$random]}+1 ))
 done
 
@@ -72,3 +72,44 @@ do
 echo $key $(( ${tripletNo[${triplet[$key]}]}*10/5 ))
 done
 
+declare -A comb
+declare -A combNo
+
+comb=(["Singlet"]=1 ["Doublet"]=2 ["Triplet"]=3)
+combNo=([1]=0 [2]=0 [3]=0)
+#echo $comb $combNo
+random=$(( RANDOM%((3-1)+1)+1 ))
+#echo $random
+
+for (( index=1;index<=20;index++ ))
+do
+random=$(( RANDOM%((3-1)+1)+1 ))
+combNo[$random]=$(( ${combNo[$random]}+1 ))
+done
+
+
+declare -a array
+
+for key in ${(k)comb[@]}
+do
+echo $key ${combNo[${comb[$key]}]}
+array[${comb[$key]}]=${combNo[${comb[$key]}]}
+done
+
+
+echo $array normal array
+
+for (( index=1;index<=${#array[@]};index++ ))
+do
+for (( inde=1;inde<=${#array[@]};inde++ )) 
+do
+if [ ${array[index]} -lt ${array[inde]} ]
+then
+temp=${array[inde]}
+array[inde]=${array[index]}
+array[index]=$temp
+fi
+done
+done
+
+echo ${array[@]} sorted array
