@@ -53,13 +53,22 @@ echo $key $((  ${doubletNo[${doublet[$key]}]}*10 ))%
 
 done
 
+declare -A triplet
+declare -A tripletNo
 
+triplet=(["HHH"]=1 ["HHT"]=2 ["HTT"]=3 ["HTH"]=4 ["THH"]=5 ["THT"]=6 ["TTH"]=7 ["TTT"]=8)
+tripletNo=([1]=0 [2]=0 [3]=0 [4]=0 [5]=0 [6]=0 [7]=0 [8]=0)
 
+for (( index=1;index<=50;index++ ))
+do
+random=$(( RANDOM%((9-1)+0)+1 ))
+tripletNo[$random]=$(( ${tripletNo[$random]}+1 ))
+done
 
+echo $tripletNo
 
-
-
-
-
-
+for key in ${(k)triplet[@]}
+do
+echo $key $(( ${tripletNo[${triplet[$key]}]}*10/5 ))
+done
 
